@@ -5,13 +5,14 @@ pipeline {
         stage('Install'){
             steps {
                 echo 'Встановлення залежностей'
-                sh 'pip install -r requirements.txt'
+                sh 'apt-get update && apt-get install -y python3-pip'
+                sh 'pip3 install pytest'
             }
         }
         stage('Testing') {
             steps {
                 echo 'Run tests'
-                sh 'pytest --junitxml=report.xml'
+                sh 'python3 -m pytest -v'
 
             }
         }
@@ -24,7 +25,7 @@ pipeline {
         }
         failure {
             echo 'Тести не пройшли. Перевірте логи'
-            
+
 
         }
     }
