@@ -5,10 +5,13 @@ services:
     image: jenkins/jenkins:lts
     container_name: jenkins
     ports:
-      - "8080:8080"
-      - "50000:50000"
+      - "8080:8080"      # веб-інтерфейс Jenkins
+      - "50000:50000"    # агентський порт
     volumes:
-      - jenkins_home:/var/jenkins_home
-      - /var/run/docker.sock:/var/run/docker.sock   # доступ до Docker хоста
+      - jenkins_home:/var/jenkins_home   # збереження даних Jenkins
+      - /var/run/docker.sock:/var/run/docker.sock  # доступ до Docker хоста
+      - /usr/bin/docker:/usr/bin/docker            # клієнт docker всередині контейнера
+    restart: unless-stopped
+
 volumes:
   jenkins_home:
