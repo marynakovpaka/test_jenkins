@@ -3,12 +3,13 @@ services:
     image: jenkins/jenkins:lts
     container_name: jenkins
     ports:
-      - "8081:8080"      # веб-інтерфейс Jenkins тепер на http://localhost:8081
-      - "50001:50000"    # агентський порт перенесено на 50001
+      - "8081:8080"
+      - "50001:50000"
     volumes:
-      - jenkins_home:/var/jenkins_home   # збереження даних Jenkins
-      - /var/run/docker.sock:/var/run/docker.sock  # доступ до Docker демона
-      - /usr/bin/docker:/usr/bin/docker            # клієнт docker всередині контейнера
+      - jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /usr/bin/docker:/usr/bin/docker   # для Linux
+      - "C:/Program Files/Docker/Docker/resources/bin/docker.exe:/usr/bin/docker.exe" # для Windows
     restart: unless-stopped
 
 volumes:
