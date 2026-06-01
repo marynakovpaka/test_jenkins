@@ -1,2 +1,2 @@
-def test_example():
-    assert 10 * 10 == 100
+def test_fail():
+    assert 1 + 1 == 3
