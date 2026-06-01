@@ -1,19 +1,16 @@
 pipeline {
-    agent {
-        docker {
-            image 'python:3.11-slim'
-        }
-    }
+    agent any
 
     stages {
-        stage('Install') {
-            steps {
-                sh 'apt-get update && apt-get install -y python3-pip'
-                sh 'pip3 install pytest pytest-junitxml'
+        stage('Test') {
+            agent {
+                docker {
+                    image 'python:3.11-slim'
+                    reuseNode true
+                }
             }
-        }
-        stage('Testing') {
             steps {
+                sh 'pip install --no-cache-dir -r requirements.txt'
                 sh 'pytest --junitxml=report.xml -v'
             }
         }
@@ -27,7 +24,7 @@ pipeline {
             echo '❌ Тести не пройшли!'
         }
         always {
-            junit 'report.xml'
+            junit allowEmptyResults: true, testResults: 'report.xml'
         }
     }
 }
